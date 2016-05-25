@@ -23,7 +23,7 @@
         android:supportsRtl="true">
 
         <activity
-            android:name=".VRShiaat"
+            android:name=".MainVRActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="landscape">

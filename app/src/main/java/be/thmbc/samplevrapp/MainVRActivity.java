@@ -8,7 +8,7 @@ import com.google.vr.sdk.base.GvrView;
 /**
  * Created by maarten on 24/05/16.
  */
-public class VRShiaat extends GvrActivity {
+public class MainVRActivity extends GvrActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
