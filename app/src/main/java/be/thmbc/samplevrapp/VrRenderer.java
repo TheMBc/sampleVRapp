@@ -35,10 +35,6 @@ public class VrRenderer implements GvrView.StereoRenderer {
 
     private float[] camera;
     private float[] view;
-    private float[] headView;
-    private float[] modelViewProjection;
-    private float[] modelView;
-    private float[] headRotation;
 
     public VrRenderer(Context context) {
         this.context = context;
@@ -49,10 +45,6 @@ public class VrRenderer implements GvrView.StereoRenderer {
         programHelper = new ProgramHelper(context.getResources());
         camera = new float[16];
         view = new float[16];
-        modelViewProjection = new float[16];
-        modelView = new float[16];
-        headRotation = new float[4];
-        headView = new float[16];
     }
 
     @Override
@@ -64,7 +56,6 @@ public class VrRenderer implements GvrView.StereoRenderer {
     @Override
     public void onNewFrame(HeadTransform headTransform) {
         Matrix.setLookAtM(camera, 0, 0.0f, 0.0f, CAMERA_Z, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
-        headTransform.getHeadView(headView, 0);
     }
 
     @Override
@@ -80,10 +71,8 @@ public class VrRenderer implements GvrView.StereoRenderer {
         // Set the position of the light
         Matrix.multiplyMV(lightPosInEyeSpace, 0, view, 0, LIGHT_POS_IN_WORLD_SPACE, 0);
 
-        // Set modelView for the floor, so we draw floor in the correct location
-        Matrix.multiplyMM(modelView, 0, view, 0, floor.getModel(), 0);
-        Matrix.multiplyMM(modelViewProjection, 0, perspective, 0, modelView, 0);
-        floor.draw(lightPosInEyeSpace, modelView, modelViewProjection);
+        //draw floor
+        floor.draw(lightPosInEyeSpace, view, perspective);
     }
 
     @Override

@@ -23,11 +23,16 @@ public class FloorObject extends RenderObject {
     private FloorProgram floorProgram;
 
     private float[] modelFloor;
+    private float[] modelView;
+    private float[] modelViewProjection;
+
 
     private float floorDepth = 20f;
 
     public FloorObject(ProgramHelper programHelper) {
         modelFloor = new float[16];
+        modelViewProjection = new float[16];
+        modelView = new float[16];
         floorProgram = new FloorProgram(programHelper);
         initializeBuffers();
     }
@@ -61,21 +66,23 @@ public class FloorObject extends RenderObject {
     }
 
     @Override
-    public void draw(float[] lightPosInEyeSpace, float[] modelView, float[] modelViewProjection) {
+    public void draw(float[] lightPosInEyeSpace, float[] view, float[] perspective) {
+        Matrix.multiplyMM(modelView, 0, view, 0, modelFloor, 0);
+        Matrix.multiplyMM(modelViewProjection, 0, perspective, 0, modelView, 0);
+
         GLES20.glUseProgram(floorProgram.getProgram());
 
-        // Set ModelView, MVP, position, normals, and color.
-        GLES20.glUniform3fv(floorProgram.getFloorLightPosParam(), 1, lightPosInEyeSpace, 0);
-        GLES20.glUniformMatrix4fv(floorProgram.getFloorModelParam(), 1, false, modelFloor, 0);
-        GLES20.glUniformMatrix4fv(floorProgram.getFloorModelViewParam(), 1, false, modelView, 0);
-        GLES20.glUniformMatrix4fv(floorProgram.getFloorModelViewProjectionParam(), 1, false, modelViewProjection, 0);
-        GLES20.glVertexAttribPointer(floorProgram.getFloorPositionParam(), Floor.COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, floorVertices);
-        GLES20.glVertexAttribPointer(floorProgram.getFloorNormalParam(), 3, GLES20.GL_FLOAT, false, 0, floorNormals);
-        GLES20.glVertexAttribPointer(floorProgram.getFloorColorParam(), 4, GLES20.GL_FLOAT, false, 0, floorColors);
+        GLES20.glUniform3fv(floorProgram.getLightPosParam(), 1, lightPosInEyeSpace, 0);
+        GLES20.glUniformMatrix4fv(floorProgram.getModelParam(), 1, false, modelFloor, 0);
+        GLES20.glUniformMatrix4fv(floorProgram.getModelViewParam(), 1, false, modelView, 0);
+        GLES20.glUniformMatrix4fv(floorProgram.getModelViewProjectionParam(), 1, false, modelViewProjection, 0);
+        GLES20.glVertexAttribPointer(floorProgram.getPositionParam(), Floor.COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, floorVertices);
+        GLES20.glVertexAttribPointer(floorProgram.getNormalParam(), 3, GLES20.GL_FLOAT, false, 0, floorNormals);
+        GLES20.glVertexAttribPointer(floorProgram.getColorParam(), 4, GLES20.GL_FLOAT, false, 0, floorColors);
 
-        GLES20.glEnableVertexAttribArray(floorProgram.getFloorPositionParam());
-        GLES20.glEnableVertexAttribArray(floorProgram.getFloorNormalParam());
-        GLES20.glEnableVertexAttribArray(floorProgram.getFloorColorParam());
+        GLES20.glEnableVertexAttribArray(floorProgram.getPositionParam());
+        GLES20.glEnableVertexAttribArray(floorProgram.getNormalParam());
+        GLES20.glEnableVertexAttribArray(floorProgram.getColorParam());
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 24);
     }

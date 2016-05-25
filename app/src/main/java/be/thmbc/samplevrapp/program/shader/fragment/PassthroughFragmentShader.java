@@ -4,16 +4,16 @@ import be.thmbc.samplevrapp.R;
 import be.thmbc.samplevrapp.util.ProgramHelper;
 
 /**
- * Created by maarten on 24/05/16.
+ * Created by maarten on 25/05/16.
  */
-public class GridFragmentShader extends FragmentShader {
+public class PassthroughFragmentShader extends FragmentShader {
 
-    public GridFragmentShader(ProgramHelper programHelper) {
+    public PassthroughFragmentShader(ProgramHelper programHelper) {
         super(programHelper);
     }
 
     @Override
     public int getRawRes() {
-        return R.raw.grid_fragment;
+        return R.raw.passthrough_fragment;
     }
 }
