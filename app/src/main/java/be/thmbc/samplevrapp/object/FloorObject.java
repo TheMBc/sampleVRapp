@@ -19,6 +19,7 @@ public class FloorObject extends RenderObject {
 
     public FloorObject(ProgramHelper programHelper) {
         floorProgram = new FloorProgram(programHelper);
+        initializeBuffers();
     }
 
     @Override

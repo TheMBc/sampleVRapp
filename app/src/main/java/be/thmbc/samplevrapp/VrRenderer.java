@@ -24,7 +24,7 @@ public class VrRenderer implements GvrView.StereoRenderer {
     private ProgramHelper programHelper;
 
     private FloorObject floor;
-    private BrickObject brick;
+    private BrickObject[] bricks;
 
     private static final float CAMERA_Z = 0.01f;
 
@@ -47,13 +47,21 @@ public class VrRenderer implements GvrView.StereoRenderer {
         programHelper = new ProgramHelper(context.getResources());
         camera = new float[16];
         view = new float[16];
+        bricks = new BrickObject[8];
     }
 
     @Override
     public void onSurfaceCreated(EGLConfig eglConfig) {
         GLES20.glClearColor(0.1f, 0.1f, 0.1f, 0.5f); // Dark background so text shows up well.
         floor = new FloorObject(programHelper);
-        brick = new BrickObject(programHelper);
+        bricks[0] = new BrickObject(programHelper, new float[]{-2f, -2f, -2f});
+        bricks[1] = new BrickObject(programHelper, new float[]{-2f, -2f, 2f});
+        bricks[2] = new BrickObject(programHelper, new float[]{-2f, 2f, -2f});
+        bricks[3] = new BrickObject(programHelper, new float[]{-2f, 2f, 2f});
+        bricks[4] = new BrickObject(programHelper, new float[]{2f, -2f, -2f});
+        bricks[5] = new BrickObject(programHelper, new float[]{2f, -2f, 2f});
+        bricks[6] = new BrickObject(programHelper, new float[]{2f, 2f, -2f});
+        bricks[7] = new BrickObject(programHelper, new float[]{2f, 2f, 2f});
     }
 
     @Override
@@ -74,8 +82,10 @@ public class VrRenderer implements GvrView.StereoRenderer {
         // Set the position of the light
         Matrix.multiplyMV(lightPosInEyeSpace, 0, view, 0, LIGHT_POS_IN_WORLD_SPACE, 0);
 
-        //draw brick
-        brick.draw(lightPosInEyeSpace, view, perspective);
+        //draw bricks
+        for (BrickObject brick : bricks) {
+            brick.draw(lightPosInEyeSpace, view, perspective);
+        }
         //draw floor
         floor.draw(lightPosInEyeSpace, view, perspective);
     }

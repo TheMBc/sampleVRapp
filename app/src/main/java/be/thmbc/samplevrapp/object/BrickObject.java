@@ -17,12 +17,23 @@ public class BrickObject extends RenderObject {
 
     private ColorProgram colorProgram;
 
+    private float[] position;
+
+    public BrickObject(ProgramHelper programHelper, float[] position) {
+        this.colorProgram = new ColorProgram(programHelper);
+        this.position = position;
+        initializeBuffers();
+    }
+
     public BrickObject(ProgramHelper programHelper) {
         this.colorProgram = new ColorProgram(programHelper);
+        this.position = new float[]{-2f, -2f, -2f};
+        initializeBuffers();
     }
 
     @Override
     public void initializeBuffers() {
+
         ByteBuffer bbFloorVertices = ByteBuffer.allocateDirect(Brick.COORDS.length * 4);
         bbFloorVertices.order(ByteOrder.nativeOrder());
         vertices = bbFloorVertices.asFloatBuffer();
@@ -42,7 +53,7 @@ public class BrickObject extends RenderObject {
         colors.position(0);
 
         Matrix.setIdentityM(model, 0);
-        Matrix.translateM(model, 0, -2f, -2f, -2f); // Brick is in front and left of user.
+        Matrix.translateM(model, 0, position[0], position[1], position[2]);
     }
 
     @Override

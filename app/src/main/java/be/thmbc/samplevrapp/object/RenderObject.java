@@ -19,7 +19,6 @@ public abstract class RenderObject {
         model = new float[16];
         modelView = new float[16];
         modelViewProjection = new float[16];
-        initializeBuffers();
     }
 
     public abstract void initializeBuffers();
