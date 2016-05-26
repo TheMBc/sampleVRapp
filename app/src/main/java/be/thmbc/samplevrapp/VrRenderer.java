@@ -11,6 +11,7 @@ import com.google.vr.sdk.base.Viewport;
 
 import javax.microedition.khronos.egl.EGLConfig;
 
+import be.thmbc.samplevrapp.object.BrickObject;
 import be.thmbc.samplevrapp.object.FloorObject;
 import be.thmbc.samplevrapp.util.ProgramHelper;
 
@@ -23,6 +24,7 @@ public class VrRenderer implements GvrView.StereoRenderer {
     private ProgramHelper programHelper;
 
     private FloorObject floor;
+    private BrickObject brick;
 
     private static final float CAMERA_Z = 0.01f;
 
@@ -30,7 +32,7 @@ public class VrRenderer implements GvrView.StereoRenderer {
     private static final float Z_FAR = 100.0f;
 
     // We keep the light always position just above the user.
-    private static final float[] LIGHT_POS_IN_WORLD_SPACE = new float[] {0.0f, 2.0f, 0.0f, 1.0f};
+    private static final float[] LIGHT_POS_IN_WORLD_SPACE = new float[]{0.0f, 2.0f, 0.0f, 1.0f};
     private final float[] lightPosInEyeSpace = new float[4];
 
     private float[] camera;
@@ -51,6 +53,7 @@ public class VrRenderer implements GvrView.StereoRenderer {
     public void onSurfaceCreated(EGLConfig eglConfig) {
         GLES20.glClearColor(0.1f, 0.1f, 0.1f, 0.5f); // Dark background so text shows up well.
         floor = new FloorObject(programHelper);
+        brick = new BrickObject(programHelper);
     }
 
     @Override
@@ -71,6 +74,8 @@ public class VrRenderer implements GvrView.StereoRenderer {
         // Set the position of the light
         Matrix.multiplyMV(lightPosInEyeSpace, 0, view, 0, LIGHT_POS_IN_WORLD_SPACE, 0);
 
+        //draw brick
+        brick.draw(lightPosInEyeSpace, view, perspective);
         //draw floor
         floor.draw(lightPosInEyeSpace, view, perspective);
     }

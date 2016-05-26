@@ -5,8 +5,6 @@ package be.thmbc.samplevrapp.shape;
  */
 public class Floor extends Shape {
 
-    public static final int COORDS_PER_VERTEX = 3;
-
     // The grid lines on the floor are rendered procedurally and large polygons cause floating point
     // precision problems on some architectures. So we split the floor into 4 quadrants.
     public static final float[] COORDS = new float[] {

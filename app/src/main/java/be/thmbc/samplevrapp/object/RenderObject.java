@@ -1,16 +1,28 @@
 package be.thmbc.samplevrapp.object;
 
+import java.nio.FloatBuffer;
+
 /**
  * Created by maarten on 25/05/16.
  */
 public abstract class RenderObject {
 
-    // Convenience vector for extracting the position from a matrix via multiplication.
-    protected static final float[] POS_MATRIX_MULTIPLY_VEC = {0, 0, 0, 1.0f};
+    protected FloatBuffer vertices;
+    protected FloatBuffer normals;
+    protected FloatBuffer colors;
+
+    protected float[] model;
+    protected float[] modelView;
+    protected float[] modelViewProjection;
+
+    public RenderObject() {
+        model = new float[16];
+        modelView = new float[16];
+        modelViewProjection = new float[16];
+        initializeBuffers();
+    }
 
     public abstract void initializeBuffers();
 
-    public abstract float[] getModel();
-
-    public abstract void draw(float[] lightPosInEyeSpace, float[] modelView, float[] modelViewProjection);
+    public abstract void draw(float[] lightPosInEyeSpace, float[] view, float[] perspective);
 }
