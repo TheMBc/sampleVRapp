@@ -5,6 +5,7 @@ import android.opengl.Matrix;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 
 import be.thmbc.samplevrapp.program.FloorProgram;
 import be.thmbc.samplevrapp.shape.Floor;
@@ -15,6 +16,10 @@ import be.thmbc.samplevrapp.util.ProgramHelper;
  */
 public class FloorObject extends RenderObject {
 
+    protected static FloatBuffer vertices;
+    protected static FloatBuffer normals;
+    protected static FloatBuffer colors;
+
     private FloorProgram floorProgram;
 
     public FloorObject(ProgramHelper programHelper) {
@@ -23,27 +28,29 @@ public class FloorObject extends RenderObject {
     }
 
     @Override
-    public void initializeBuffers() {
-        ByteBuffer bbFloorVertices = ByteBuffer.allocateDirect(Floor.COORDS.length * 4);
-        bbFloorVertices.order(ByteOrder.nativeOrder());
-        vertices = bbFloorVertices.asFloatBuffer();
-        vertices.put(Floor.COORDS);
-        vertices.position(0);
+    public synchronized void initializeBuffers() {
+        if (vertices == null) {
+            ByteBuffer bbFloorVertices = ByteBuffer.allocateDirect(Floor.COORDS.length * 4);
+            bbFloorVertices.order(ByteOrder.nativeOrder());
+            vertices = bbFloorVertices.asFloatBuffer();
+            vertices.put(Floor.COORDS);
+            vertices.position(0);
 
-        ByteBuffer bbFloorNormals = ByteBuffer.allocateDirect(Floor.NORMALS.length * 4);
-        bbFloorNormals.order(ByteOrder.nativeOrder());
-        normals = bbFloorNormals.asFloatBuffer();
-        normals.put(Floor.NORMALS);
-        normals.position(0);
+            ByteBuffer bbFloorNormals = ByteBuffer.allocateDirect(Floor.NORMALS.length * 4);
+            bbFloorNormals.order(ByteOrder.nativeOrder());
+            normals = bbFloorNormals.asFloatBuffer();
+            normals.put(Floor.NORMALS);
+            normals.position(0);
 
-        ByteBuffer bbFloorColors = ByteBuffer.allocateDirect(Floor.COLORS.length * 4);
-        bbFloorColors.order(ByteOrder.nativeOrder());
-        colors = bbFloorColors.asFloatBuffer();
-        colors.put(Floor.COLORS);
-        colors.position(0);
+            ByteBuffer bbFloorColors = ByteBuffer.allocateDirect(Floor.COLORS.length * 4);
+            bbFloorColors.order(ByteOrder.nativeOrder());
+            colors = bbFloorColors.asFloatBuffer();
+            colors.put(Floor.COLORS);
+            colors.position(0);
+        }
 
         Matrix.setIdentityM(model, 0);
-        Matrix.translateM(model, 0, 0, -20f, 0); // Floor appears below user.
+        Matrix.translateM(model, 0, 0, -10f, 0); // Floor appears below user.
     }
 
     @Override

@@ -1,15 +1,9 @@
 package be.thmbc.samplevrapp.object;
 
-import java.nio.FloatBuffer;
-
 /**
  * Created by maarten on 25/05/16.
  */
 public abstract class RenderObject {
-
-    protected FloatBuffer vertices;
-    protected FloatBuffer normals;
-    protected FloatBuffer colors;
 
     protected float[] model;
     protected float[] modelView;

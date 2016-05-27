@@ -54,14 +54,14 @@ public class VrRenderer implements GvrView.StereoRenderer {
     public void onSurfaceCreated(EGLConfig eglConfig) {
         GLES20.glClearColor(0.1f, 0.1f, 0.1f, 0.5f); // Dark background so text shows up well.
         floor = new FloorObject(programHelper);
-        bricks[0] = new BrickObject(programHelper, new float[]{-2f, -2f, -2f});
-        bricks[1] = new BrickObject(programHelper, new float[]{-2f, -2f, 2f});
-        bricks[2] = new BrickObject(programHelper, new float[]{-2f, 2f, -2f});
-        bricks[3] = new BrickObject(programHelper, new float[]{-2f, 2f, 2f});
-        bricks[4] = new BrickObject(programHelper, new float[]{2f, -2f, -2f});
-        bricks[5] = new BrickObject(programHelper, new float[]{2f, -2f, 2f});
-        bricks[6] = new BrickObject(programHelper, new float[]{2f, 2f, -2f});
-        bricks[7] = new BrickObject(programHelper, new float[]{2f, 2f, 2f});
+        bricks[0] = new BrickObject(programHelper, new float[]{-1f, -1f, -1f});
+        bricks[1] = new BrickObject(programHelper, new float[]{-1f, -1f, 1f});
+        bricks[2] = new BrickObject(programHelper, new float[]{-1f, 1f, -1f});
+        bricks[3] = new BrickObject(programHelper, new float[]{-1f, 1f, 1f});
+        bricks[4] = new BrickObject(programHelper, new float[]{1f, -1f, -1});
+        bricks[5] = new BrickObject(programHelper, new float[]{1f, -1f, 1f});
+        bricks[6] = new BrickObject(programHelper, new float[]{1f, 1f, -1f});
+        bricks[7] = new BrickObject(programHelper, new float[]{1f, 1f, 1f});
     }
 
     @Override

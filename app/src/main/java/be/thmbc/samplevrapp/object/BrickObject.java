@@ -5,6 +5,7 @@ import android.opengl.Matrix;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 
 import be.thmbc.samplevrapp.program.ColorProgram;
 import be.thmbc.samplevrapp.shape.Brick;
@@ -14,6 +15,10 @@ import be.thmbc.samplevrapp.util.ProgramHelper;
  * Created by maarten on 25/05/16.
  */
 public class BrickObject extends RenderObject {
+
+    protected static FloatBuffer vertices;
+    protected static FloatBuffer normals;
+    protected static FloatBuffer colors;
 
     private ColorProgram colorProgram;
 
@@ -27,30 +32,31 @@ public class BrickObject extends RenderObject {
 
     public BrickObject(ProgramHelper programHelper) {
         this.colorProgram = new ColorProgram(programHelper);
-        this.position = new float[]{-2f, -2f, -2f};
+        this.position = new float[]{0f, 0f, -2f};
         initializeBuffers();
     }
 
     @Override
-    public void initializeBuffers() {
+    public synchronized void initializeBuffers() {
+        if (vertices == null) {
+            ByteBuffer bbFloorVertices = ByteBuffer.allocateDirect(Brick.COORDS.length * 4);
+            bbFloorVertices.order(ByteOrder.nativeOrder());
+            vertices = bbFloorVertices.asFloatBuffer();
+            vertices.put(Brick.COORDS);
+            vertices.position(0);
 
-        ByteBuffer bbFloorVertices = ByteBuffer.allocateDirect(Brick.COORDS.length * 4);
-        bbFloorVertices.order(ByteOrder.nativeOrder());
-        vertices = bbFloorVertices.asFloatBuffer();
-        vertices.put(Brick.COORDS);
-        vertices.position(0);
+            ByteBuffer bbFloorNormals = ByteBuffer.allocateDirect(Brick.NORMALS.length * 4);
+            bbFloorNormals.order(ByteOrder.nativeOrder());
+            normals = bbFloorNormals.asFloatBuffer();
+            normals.put(Brick.NORMALS);
+            normals.position(0);
 
-        ByteBuffer bbFloorNormals = ByteBuffer.allocateDirect(Brick.NORMALS.length * 4);
-        bbFloorNormals.order(ByteOrder.nativeOrder());
-        normals = bbFloorNormals.asFloatBuffer();
-        normals.put(Brick.NORMALS);
-        normals.position(0);
-
-        ByteBuffer bbFloorColors = ByteBuffer.allocateDirect(Brick.COLORS.length * 4);
-        bbFloorColors.order(ByteOrder.nativeOrder());
-        colors = bbFloorColors.asFloatBuffer();
-        colors.put(Brick.COLORS);
-        colors.position(0);
+            ByteBuffer bbFloorColors = ByteBuffer.allocateDirect(Brick.COLORS.length * 4);
+            bbFloorColors.order(ByteOrder.nativeOrder());
+            colors = bbFloorColors.asFloatBuffer();
+            colors.put(Brick.COLORS);
+            colors.position(0);
+        }
 
         Matrix.setIdentityM(model, 0);
         Matrix.translateM(model, 0, position[0], position[1], position[2]);
