@@ -14,7 +14,7 @@ public class MainVRActivity extends GvrActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.common_ui);
+        setContentView(R.layout.main_vr_ui);
 
         GvrView gvrView = (GvrView) findViewById(R.id.gvr_view);
         gvrView.setEGLConfigChooser(8, 8, 8, 8, 16, 8);
