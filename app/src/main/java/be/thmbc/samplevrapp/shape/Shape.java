@@ -5,4 +5,5 @@ package be.thmbc.samplevrapp.shape;
  */
 public abstract class Shape {
 
+    public static final int COORDS_PER_VERTEX = 3;
 }

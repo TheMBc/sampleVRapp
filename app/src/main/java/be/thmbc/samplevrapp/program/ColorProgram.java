@@ -1,17 +1,17 @@
 package be.thmbc.samplevrapp.program;
 
 import be.thmbc.samplevrapp.program.shader.fragment.FragmentShader;
-import be.thmbc.samplevrapp.program.shader.fragment.GridFragmentShader;
+import be.thmbc.samplevrapp.program.shader.fragment.PassthroughFragmentShader;
 import be.thmbc.samplevrapp.program.shader.vertex.LightVertexShader;
 import be.thmbc.samplevrapp.program.shader.vertex.VertexShader;
 import be.thmbc.samplevrapp.util.ProgramHelper;
 
 /**
- * Created by maarten on 24/05/16.
+ * Created by maarten on 25/05/16.
  */
-public class FloorProgram extends Program {
+public class ColorProgram extends Program {
 
-    public FloorProgram(ProgramHelper programHelper) {
+    public ColorProgram(ProgramHelper programHelper) {
         super(programHelper);
     }
 
@@ -22,8 +22,6 @@ public class FloorProgram extends Program {
 
     @Override
     protected FragmentShader loadFragmentShader() {
-        return new GridFragmentShader(programHelper);
+        return new PassthroughFragmentShader(programHelper);
     }
-
-
 }

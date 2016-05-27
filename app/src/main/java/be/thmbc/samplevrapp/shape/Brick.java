@@ -3,7 +3,7 @@ package be.thmbc.samplevrapp.shape;
 /**
  * Created by maarten on 24/05/16.
  */
-public class Brick {
+public class Brick extends Shape {
 
     public static final float[] COORDS = new float[] {
             // Front face

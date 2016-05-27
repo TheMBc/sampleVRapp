@@ -8,13 +8,12 @@ import be.thmbc.samplevrapp.util.ProgramHelper;
  */
 public class LightVertexShader  extends VertexShader{
 
-    private int shader;
-
     public LightVertexShader(ProgramHelper programHelper) {
-        shader = programHelper.loadGLShader(TYPE, R.raw.light_vertex);
+        super(programHelper);
     }
 
-    public int getShader() {
-        return shader;
+    @Override
+    public int getRawRes() {
+        return R.raw.light_vertex;
     }
 }
